@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\PostToMediumJob;
 use Exception;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Jobs\PostToMediumJob;
+use App\Models\Image;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -74,5 +76,52 @@ class PostController extends Controller
                 'message' => 'Successfully Queued'
             ]
         );
+    }
+
+    /**
+     * Upload Image
+     * 
+     * @urlParam String $postId
+     */
+    public function uploadImage(Request $request, $uuid)
+    {
+
+        $post = Post::where('uuid', $uuid)->first();
+
+        if (!$post) {
+            return response()->json(['error' => 'Post not found'], 404);
+        }
+
+        $this->validate($request, [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        try {
+
+            $uploadedFileName = $request->file->getClientOriginalName();
+            $uploadedFileName = uniqid() . "." . $request->file->getClientOriginalExtension();
+            $destination = 'uploads' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR;
+            $request->file('file')->move($destination, $uploadedFileName);
+
+            $image = new Image();
+            $image->uuid    = Str::uuid();
+            $image->post_id = $post->id;
+            $image->url     = $destination . $uploadedFileName;
+
+            if ($image->save()) {
+                return response()->json(
+                    [
+                        'status'    => 'success',
+                        'image_url' => url($destination . $uploadedFileName),
+                        'message'   => 'Image Uploaded Successfully'
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Something went wrong']);
     }
 }

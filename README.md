@@ -25,8 +25,10 @@ Local Installation Steps
 9. Run 
     php artisan queue:work
 
-10 Run
+10. Run
     php -S localhost:8000 -t public
 
 11. For Running the tests execute following command from the root directory
     ./vendor/bin/phpunit tests/PostTest.php
+
+

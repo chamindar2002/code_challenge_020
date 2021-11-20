@@ -20,6 +20,7 @@ $router->get('/', function () use ($router) {
 $router->group(['middleware' => ['auth:api'],'prefix'=>'api/v1'], function () use ($router){   
     $router->post('post', 'PostController@store');
     $router->post('post/{uuid}/submit-to-medium', 'PostController@submitToMedium');
+    $router->post('post/{uuid}/upload-image', 'PostController@uploadImage');
 
     $router->post('user', 'UserController@store');
 });
