@@ -5,7 +5,7 @@ Local Installation Steps
 
 1. Clone the project
 
-2. Make sure .env file exists
+2. Make sure .env file exists (.env file removed from .gitignore so it should be available)
 
 3. Create a mysql empty database
 
