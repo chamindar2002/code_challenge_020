@@ -31,4 +31,9 @@ Local Installation Steps
 11. For Running the tests execute following command from the root directory
     ./vendor/bin/phpunit tests/PostTest.php
 
+Seeder will populate the user table with a user with following credentials which can be used to login
+username: admin@gmail.com
+password: admin123
+
+
 
