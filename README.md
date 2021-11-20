@@ -36,12 +36,19 @@ username: admin@gmail.com
 password: admin123
 
 12. Follow the following steps to obtain a Medium.com integration token:
+
     Visit https://medium.com/me/settings
+
     Sign up with google account
-    Click on your profile -> and Click settings nav link
+
+    Click on your profile -> Click settings nav link
+
     Under settings -> select Integration Tokens nav link
+
     Enter a description of you token in the text box provided
+
     Click "Get Integration Token" button
+    
     Copy the generated code
 
 
