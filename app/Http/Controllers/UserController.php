@@ -16,7 +16,8 @@ class UserController extends Controller
         $this->validate($request, [
             'name'      => 'required|max:100',
             'email'     => 'required|email|max:255|unique:users,email',
-            'password'  => 'required|confirmed'
+            'password'  => 'required|confirmed',
+            'medium_integration_token' => 'required|min:50'
         ]);
 
         try{
@@ -25,6 +26,7 @@ class UserController extends Controller
             $user->name     = $request->name;
             $user->email    = $request->email;
             $user->password = Hash::make($request->password);
+            $user->medium_integration_token = $request->medium_integration_token;
 
             if ($user->save()) {
                 return response()->json(
